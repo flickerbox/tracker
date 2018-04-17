@@ -1,0 +1,24 @@
+{
+  "name": "@flickerbox/tracker",
+  "version": "1.0.0",
+  "description": "A convenient packager for your event tracking needs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flickerbox/tracker.git"
+  },
+  "keywords": [
+    "google-analytics",
+    "google-tag-manager",
+    "event-tracking"
+  ],
+  "author": "Flickebox (https://www.flickerbox.com)",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/flickerbox/tracker/issues"
+  },
+  "homepage": "https://github.com/flickerbox/tracker#readme"
+}
