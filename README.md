@@ -59,6 +59,8 @@ The constructor supports optional overrides for the following settings:
 - **1** - Use Google Analytics ga() method
 - **2** - Use Google Tag Manager dataLayer.push() method
 
+```tracker = new Tracker({tracker_method: 2})```
+
 ### Google Tag Manager Setup
 
 When using GTM for event tracking the following data layer variables are required.
