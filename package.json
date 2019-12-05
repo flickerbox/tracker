@@ -1,24 +1,44 @@
 {
   "name": "@flickerbox/tracker",
-  "version": "1.0.2",
-  "description": "A convenient packager for your event tracking needs.",
+  "version": "2.0.0",
+  "description": "A convenient utility for your event tracking needs.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pretest": "./node_modules/.bin/eslint .",
+    "test": "nyc ava"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/flickerbox/tracker.git"
   },
   "keywords": [
+    "analytics",
     "google-analytics",
     "google-tag-manager",
     "event-tracking"
   ],
   "author": "Flickebox (https://www.flickerbox.com)",
-  "license": "GPL-2.0",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/flickerbox/tracker/issues"
   },
-  "homepage": "https://github.com/flickerbox/tracker#readme"
+  "homepage": "https://github.com/flickerbox/tracker#readme",
+  "devDependencies": {
+    "ava": "^2.4.0",
+    "eslint": "^6.7.2",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "nyc": "^14.1.1"
+  },
+  "ava": {
+    "files": [
+      "test/**/*"
+    ],
+    "require": [
+      "esm"
+    ]
+  }
 }
