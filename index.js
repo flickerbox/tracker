@@ -38,9 +38,6 @@ export default class Tracker {
 
     try {
       const eventLabel = LabelBuilder(tracker)
-      console.log('---generated label')
-      console.log(eventLabel)
-
       const eventType = (typeof tracker.type !== 'undefined') ? tracker.type : ''
       const eventValue = (typeof tracker.value !== 'undefined') ? tracker.value : ''
       this.trackerChannel(eventType, eventLabel, eventValue, callbackEvent)
