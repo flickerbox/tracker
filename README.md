@@ -1,34 +1,24 @@
 # Flickerbox Tracker
 
-This module endeavors to be a convenient packager for your event tracking needs. It supports both Google Analytics and Google Tag Manager implementations sending events.
+Tracker endeavors to be a convenient packager for your event tracking needs no matter what analytics platform you use. It includes "channels" for Google Analytics, Google Tag Manager, and Console output (helpful for debugging) by default and it's easy to add your own for other services.
 
 ## Overview
 
-The tracker event method uses the provided event object to standardize the values submitted to Google Analytics for more consistent event tracking. In addition a custom event name can be provided that will be triggered in the tracker callback.
-
-### Event Values
-
-The following structure is used for tracked events.
-
-**Category** - URL of the page where the event occurs.
-
-**Action** - Tracker object `type` property.
-
-**Label** - Created by LabelBuilder from tracker object `identifier` and `target` properties.
-
-**Value** - Tracker object `value` property.
+Tracker uses the provided event object to standardize the values submitted to Google Analytics for more consistent event tracking. In addition a custom event name can be provided that can be triggered in the tracker callback.
 
 ### Tracker Object
 
-The tracker object can contain the following properties.
+The tracker object can contain the following properties (with recommended values).
 
 **type** - String value of the type of event: link_click, form_submission, etc.
 
-**identifier** - String value of the identifier, or optionally an object made up of properties: dom_data, dom_id, dom_name.
+**identifier** - A string indentifier or an object made up of separate values.
+
+- Identfier Object Properties: dom_data, dom_id, dom_name.
 
 **target** - String of the target, commonly link url, or form action
 
-**value** - String of the event value
+**value** - The event value
 
 When using an object for the identifier the properties will be applied to the label in order: dom_data, dom_id, dom_name to standardize label creation.
 
@@ -41,7 +31,7 @@ Include the module in your project:
 $ npm install @flickerbox/tracker
 ```
 
-### Add to Your Source
+### Add to Your Build
 
 ```
 import Tracker from '@flickerbox/tracker';
@@ -52,25 +42,55 @@ var tracker = new Tracker();
 
 The constructor supports optional overrides for the following settings:
 
-**timeout (default: 500)** - Integer value for the amount of time (in ms) to wait before forcing the complete event.
+**timeout (default: 500)** - Value for the amount of time (in ms) to wait before forcing the complete event.
 
-**tracker_method (default: GA)** - Which method (GA/GTM) to use when submitting the event.
+**trackerChannel (default: GA)** - Which method (GA/GTM) to use when submitting the event.
 
 - **1** - Use Google Analytics ga() method
 - **2** - Use Google Tag Manager dataLayer.push() method
 
 ```tracker = new Tracker({tracker_method: 2})```
 
+### Use Your Own Channel
+
+A sample custom channel is included to output event data to the browser console. It can be used as a template for your own custom channel or used for debugging during development.
+
+```
+import Tracker from '@flickerbox/tracker'
+import ConsoleOutput from "@flickerbox/tracker/src/channels/console";
+
+let tracker = new Tracker({
+	trackerChannel: ConsoleOutput
+});
+```
+
 ### Google Tag Manager Setup
+
+Use of tracker with Google Tag Manager requires a few tags/variables to be configured.
+
+#### Import
+
+[Use the included template file](https://github.com/flickerbox/tracker/blob/master/_container/google-tag-manager.json) to import these assets to your Google Tag Manager container.
+
+#### Manual Setup
 
 When using GTM for event tracking the following data layer variables are required.
 
-**Data Layer Variable Name** - Used For
+##### Variables
 
 - **ga_category** - Tag Event Category
 - **ga_action** - Tag Event Action
 - **ga_label** - Tag Event Label
 - **ga_value** - Tag Event Value
+- **Google Analytics ID** - Tracking ID
+
+##### Trigger
+
+- **ga_event_tracking** - Custom Event Trigger
+
+##### Tag
+
+- **Global Event Tracking** - Google Analytics Universal Analytics Tag
 
 In addition, a Universal Analytics tag with an `Event` track type should be added using these variables.
 
@@ -149,4 +169,60 @@ $('img').on('click', function(event) {
 		);
 	}
 });
+```
+
+## Upgrading From v1
+
+### Tracker Config
+
+`tracker_method` config property should be changed to `trackerChannel`. Values of 1 (Google Analytics) and 2 (Google Tag Manager) are still supported for this property.
+
+#### v1
+
+```
+let tracker = new Tracker({
+    tracker_method: 2)
+});
+```
+
+#### v2
+
+```
+let tracker = new Tracker({
+    trackerChannel: 2)
+});
+```
+
+### Identifier Properties
+
+`identifier` properties should be changed to camelCase
+
+#### v1
+
+```
+tracker.event(
+{
+	type: "other_click",
+	identifier: {
+		dom_data: $(this).attr('data-event'),
+		dom_id: $(this).attr('id'),
+		dom_name: $(this).attr('alt')
+	},
+	target: $(this).attr('src')
+}
+```
+
+#### v2
+
+```
+tracker.event(
+{
+	type: "other_click",
+	identifier: {
+		domData: $(this).attr('data-event'),
+		domId: $(this).attr('id'),
+		domName: $(this).attr('alt')
+	},
+	target: $(this).attr('src')
+}
 ```

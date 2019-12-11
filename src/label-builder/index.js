@@ -6,30 +6,36 @@ import ValidElement from '../valid-element'
  * @param {object} tracker object with event details
  * @returns {string} Label for event to submit
  */
-const LabelBuilder = (tracker) => {
+const LabelBuilder = ({ identifier = {}, target = null }) => {
   const eventLabel = []
 
-  if (typeof tracker.identifier === 'object') {
-    if (ValidElement(tracker.identifier.dom_data)) {
-      eventLabel.push(tracker.identifier.dom_data)
+  if (typeof identifier === 'object') {
+    const {
+      domData,
+      domId,
+      domName
+    } = identifier
+
+    if (ValidElement(domData)) {
+      eventLabel.push(domData)
     }
 
-    if (ValidElement(tracker.identifier.dom_id)) {
-      eventLabel.push(tracker.identifier.dom_id)
+    if (ValidElement(domId)) {
+      eventLabel.push(domId)
     }
 
-    if (ValidElement(tracker.identifier.dom_name)) {
-      eventLabel.push(tracker.identifier.dom_name)
+    if (ValidElement(domName)) {
+      eventLabel.push(domName)
     }
-  } else if (typeof tracker.identifier === 'string') {
-    eventLabel.push(tracker.identifier)
+  } else if (typeof identifier === 'string') {
+    eventLabel.push(identifier)
   }
 
-  if (tracker.target !== null &&
-    tracker.target !== 'javascript:;' &&
-    tracker.target !== '#'
+  if (target !== null &&
+    target !== 'javascript:;' &&
+    target !== '#'
   ) {
-    eventLabel.push(tracker.target)
+    eventLabel.push(target)
   }
 
   return eventLabel.join(' | ')

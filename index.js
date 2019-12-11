@@ -55,7 +55,7 @@ export default class Tracker {
        * This also helps reduce click delay when the callback doesn't execute in a timely manner. this could result in
        * lost tracking but errs on the side of slightly better user experience.
        */
-      setTimeout(function () {
+      setTimeout(() => {
         document.dispatchEvent(callbackEvent)
       }, this.trackerTimeout)
     }
