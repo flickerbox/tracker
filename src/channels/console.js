@@ -16,7 +16,7 @@ const ConsoleOutput = (eventType, eventLabel, eventValue, callbackEvent) => {
         Category: window.location.href,
         Action: eventType,
         Label: eventLabel,
-        Value: eventValue,
+        Value: eventValue
       }
     })
     return true
