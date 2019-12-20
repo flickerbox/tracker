@@ -11,23 +11,13 @@
  */
 const ConsoleOutput = (eventType, eventLabel, eventValue, callbackEvent) => {
   try {
-    const consoleMessages = [
-      '-----------------------------------------------------',
-      '@flickerbox/tracker Console Channel',
-      '-- Event Category',
-      window.location.href,
-      '-- Event Action',
-      eventType,
-      '-- Event Label',
-      eventLabel,
-      '-- Event Value',
-      eventValue,
-      '-- Callback Event',
-      JSON.stringify(callbackEvent),
-      '-----------------------------------------------------'
-    ]
-    consoleMessages.forEach((message) => {
-      console.log(message)
+    console.table({
+      eventValues: {
+        Category: window.location.href,
+        Action: eventType,
+        Label: eventLabel,
+        Value: eventValue,
+      }
     })
     return true
   } catch (error) {
