@@ -21,5 +21,3 @@ test('Invalid value causes error', t => {
   const retrievedChannel = Channels(5)
   t.false(retrievedChannel)
 })
-
-// todo:write tests
