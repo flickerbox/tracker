@@ -12,9 +12,9 @@ The tracker object can contain the following properties (with recommended values
 
 **type** - String value of the type of event: link_click, form_submission, etc.
 
-**identifier** - A string indentifier or an object made up of separate values.
+**identifier** - A string identifier or an object made up of separate values.
 
-- Identfier Object Properties: dom_data, dom_id, dom_name.
+- Identifier Object Properties: dom_data, dom_id, dom_name.
 
 **target** - String of the target, commonly link url, or form action
 
@@ -46,7 +46,7 @@ The constructor supports optional overrides for the following settings:
 
 **trackerChannel (default: GA)** - Which method (GA/GTM) to use when submitting the event.
 
-- **1** - Use Google Analytics ga() method
+- **1** - Use Google Analytics gtag() method (for ga() see legacy instructions below)
 - **2** - Use Google Tag Manager dataLayer.push() method
 
 ```tracker = new Tracker({tracker_method: 2})```
@@ -171,6 +171,55 @@ $('img').on('click', function(event) {
 });
 ```
 
+## Google Analytics Universal Vs Global Site Tag
+
+From v2.1.0 tracker supports Google Analytics event tracking through both Universal Analytics `ga('send', 'event'...)` and Global Site Tag `gtag('event'...)`. Which you need depends on how you've added Google Analytics to your site.
+
+### Global Site Tag
+
+If your [site uses global site tag](https://developers.google.com/analytics/devguides/collection/gtagjs) you should use the tracker defaults. Global Site Tag is the default implementation for the GoogleAnalytics channel, and the default tracker channel, from v2.1.0+. Your global site tag implementation will look similar to:
+
+```
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'GA_MEASUREMENT_ID');
+</script>
+```
+
+### Universal Analytics
+
+If your [site uses analytics.js](https://developers.google.com/analytics/devguides/collection/analyticsjs/) you should use the "legacy" channel. This implementation will look similar to:
+
+```
+<!-- Google Analytics -->
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-XXXXX-Y', 'auto');
+ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+```
+
+When adding the tracker to your site you should import the legacy channel and use it in your tracker config. Which will look something like:
+
+```
+import GoogleAnalyticsLegacy from "@flickerbox/tracker/src/channels/google-analytics-legacy"
+
+const tracker = new Tracker({
+    trackerChannel: GoogleAnalyticsLegacy,
+})
+```
+
+
 ## Upgrading From v1
 
 ### Tracker Config
@@ -226,3 +275,7 @@ tracker.event(
 	target: $(this).attr('src')
 }
 ```
+
+## Upgrading to v2.1.0+
+
+If your site needs the Google Analytics channel but you haven't yet updated to the [Global Site Tag](https://developers.google.com/analytics/devguides/collection/gtagjs/) you should use the "legacy" Google Analytics channel in the tracker module when upgrading to v2.1.0+. Instructions for using the legacy channel are available above.
