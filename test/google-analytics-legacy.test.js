@@ -1,6 +1,6 @@
 import test from 'ava'
 import browserEnv from 'browser-env'
-import GoogleAnalytics from '../src/channels/google-analytics'
+import GoogleAnalyticsLegacy from '../src/channels/google-analytics-legacy'
 
 browserEnv()
 
@@ -16,12 +16,12 @@ window.ga = (command, hitType, category, action, label, value, callbackEvent) =>
   })
 }
 
-test('Event submission with Google Tag Manager channel', t => {
+test('Event submission with Google Analytics (ga) channel', t => {
   const eventType = 'test_type'
   const eventLabel = 'some-label | ' + Date.now()
   const eventValue = Math.random()
 
-  GoogleAnalytics(eventType, eventLabel, eventValue)
+  GoogleAnalyticsLegacy(eventType, eventLabel, eventValue)
 
   const responseObject = JSON.parse(window.gaResponse)
 

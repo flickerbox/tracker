@@ -9,18 +9,20 @@
  * @param {object} callbackEvent Event to dispatch in callback
  * @returns {boolean|*} true if successful, error when thrown
  */
-const GoogleAnalytics = (eventType, eventLabel, eventValue, callbackEvent) => {
+const GoogleAnalyticsLegacy = (eventType, eventLabel, eventValue, callbackEvent) => {
   try {
-    window.gtag('event', eventType, {
-      event_category: window.location.href,
-      event_label: eventLabel,
-      value: eventValue,
-      event_callback: () => document.dispatchEvent(callbackEvent)
-    })
+    window.ga('send',
+      'event',
+      window.location.href,
+      eventType,
+      eventLabel,
+      eventValue,
+      { hitCallback: complete => document.dispatchEvent(callbackEvent) }
+    )
     return true
   } catch (error) {
     console.error(error)
   }
 }
 
-export default GoogleAnalytics
+export default GoogleAnalyticsLegacy
