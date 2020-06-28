@@ -28,4 +28,4 @@ script:
   - npm run test
 
 after_success:
-  - ./node_modules/.bin/codecov --token=$CODECOV_TOKEN
+  - npm run report-coverage

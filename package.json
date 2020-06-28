@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "pretest": "./node_modules/.bin/eslint .",
+    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "test": "nyc ava"
   },
   "repository": {
