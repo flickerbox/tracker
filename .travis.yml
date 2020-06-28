@@ -7,11 +7,17 @@ node_js:
   - "10"
   - "12"
   - "13"
+  - "14"
 
 notifications:
   email:
     on_success: never
     on_failure: change
+
+branches:
+  only:
+    - main
+    - development
 
 cache:
   npm: false
@@ -21,3 +27,6 @@ before_script:
 
 script:
   - npm run test
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
