@@ -1,7 +1,5 @@
 # Flickerbox Tracker
 
-[![Build Status](https://travis-ci.org/asdfdotdev/tracker.svg?branch=main)](https://travis-ci.org/asdfdotdev/tracker) [![codecov](https://codecov.io/gh/asdfdotdev/tracker/branch/main/graph/badge.svg)](https://codecov.io/gh/asdfdotdev/tracker)
-
 Tracker endeavors to be a convenient packager for your event tracking needs no matter what analytics platform you use. It includes "channels" for Google Analytics, Google Tag Manager, and Console output (helpful for debugging) by default and it's easy to add your own for other services.
 
 ## Overview
