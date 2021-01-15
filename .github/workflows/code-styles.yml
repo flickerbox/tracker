@@ -1,0 +1,46 @@
+name: Code Styles
+
+on:
+  push:
+    branches:
+      - main
+      - development
+  pull_request:
+    types: [closed]
+  schedule:
+    - cron: '0 0 * * 0'
+
+jobs:
+  code-styles:
+    name: Node ${{ matrix.node-version }} on ${{ matrix.operating-system }}
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        node-version: [ '15' ]
+        operating-system: [ ubuntu-20.04 ]
+
+    steps:
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          architecture: x64
+
+      - name: Checkout tracker
+        uses: actions/checkout@v2
+
+      - name: Install Requirements
+        run: |
+          npm install
+
+      - name: Log Debug Information
+        run: |
+          echo "$GITHUB_REF"
+          echo "$GITHUB_EVENT_NAME"
+          node --version
+          npm --version
+          ./node_modules/.bin/eslint --env-info
+
+      - name: ESLint Code Styles
+        run: |
+          npm run lint-styles
